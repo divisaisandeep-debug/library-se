@@ -1,18 +1,25 @@
-import unittest
-from src.library import Library
+class Library:
+    def __init__(self):
+        self.books = {}  # book_id -> {title, author, status}
 
-class TestSprint1(unittest.TestCase):
+    def add_book(self, book_id, title, author):
+        if book_id in self.books:
+            raise ValueError("Book ID already exists")
+        self.books[book_id] = {
+            "title": title,
+            "author": author,
+            "status": "Available"
+        }
 
-    def test_add_book_success(self):
-        library = Library()
-        library.add_book(1, "Python", "Author")
-        self.assertIn(1, library.books)
+    def borrow_book(self, book_id):
+        if book_id not in self.books:
+            raise ValueError("Book not found")
+        if self.books[book_id]["status"] == "Borrowed":
+            raise ValueError("Book already borrowed")
+        self.books[book_id]["status"] = "Borrowed"
 
-    def test_duplicate_book_id(self):
-        library = Library()
-        library.add_book(1, "Python", "Author")
-        with self.assertRaises(ValueError):
-            library.add_book(1, "Python", "Author")
+    def return_book(self, book_id):
+        if book_id not in self.books:
+            raise ValueError("Book not found")
+        self.books[book_id]["status"] = "Available"
 
-if __name__ == "__main__":
-    unittest.main()

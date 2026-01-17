@@ -22,4 +22,11 @@ class Library:
         if book_id not in self.books:
             raise ValueError("Book not found")
         self.books[book_id]["status"] = "Available"
+    def generate_report(self):
+        report = ["BookID | Title | Author | Status"]
+        for book_id, data in self.books.items():
+            report.append(
+                f"{book_id} | {data['title']} | {data['author']} | {data['status']}"
+            )
+        return "\n".join(report)
 

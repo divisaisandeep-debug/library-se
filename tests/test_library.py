@@ -22,4 +22,11 @@ class Library:
         if book_id not in self.books:
             raise ValueError("Book not found")
         self.books[book_id]["status"] = "Available"
+    def test_report_contains_header(self):
+        report = self.lib.generate_report()
+        self.assertIn("BookID | Title | Author | Status", report)
+
+    def test_report_contains_book_entry(self):
+        report = self.lib.generate_report()
+        self.assertIn("B1", report)
 
